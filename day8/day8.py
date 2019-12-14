@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import numpy as np
 import sys
-
 
 class Img:
 
@@ -61,15 +59,30 @@ class Img:
 
         return ones * twoes
 
+    def renderimage(self):
+        finalimage = [[2 for x in range(self.width)] for y in range(self.height)]
+        for layer in self.layers:
+            for h in range(self.height):
+                for w in range(self.width):
+                    if finalimage[h][w] == 2:
+                        finalimage[h][w] = layer[h][w]
+        return finalimage
+
 
 inp = []
-with open('day8/input.txt','r') as f:
+with open('input.txt','r') as f:
     for line in f.readlines():
         for c in line.strip():
             inp.append(int(c))
 
-
 realimg = Img(inp, width=25, height=6)
 layer, number = realimg.getlayercontaininglowestnrzeroes() 
 print("Part 1 solution is: " + str(realimg.verifylayer(layer)))
+
+render = realimg.renderimage()
+print("Part 2 solution is: ")
+for i in range(realimg.height):
+    for j in range(realimg.width):
+        print(render[i][j], end='')
+    print()
 
